@@ -1,0 +1,38 @@
+<%
+var themeConfig = get_theme_config();
+var posts = page.posts.sort('-date');
+var postsPerPage = themeConfig.index && themeConfig.index.posts_per_page ? themeConfig.index.posts_per_page : config.index_generator.per_page;
+var pagination = {
+  current: page.current,
+  total: page.total,
+  base: config.root,
+  perPage: postsPerPage
+};
+%>
+
+<div class="posts-grid">
+  <% posts.each(function(post) { %>
+    <div class="post-item">
+      <a href="<%- url_for(post.path) %>">
+        <div class="post-cover" style="background-color: #eee;"></div>
+        <div class="post-info">
+          <h2 class="post-title"><%- post.title || '无标题' %></h2>
+          <div class="title-divider"></div>
+          <div class="post-date"><%- post.date.format(config.date_format) %></div>
+        </div>
+      </a>
+    </div>
+  <% }); %>
+</div>
+
+<% if (pagination.total > 1) { %>
+  <nav class="pagination">
+    <%- paginator({
+      current: pagination.current,
+      total: pagination.total,
+      base: pagination.base,
+      perPage: pagination.perPage,
+      format: 'page/%d/'
+    }) %>
+  </nav>
+<% } %>

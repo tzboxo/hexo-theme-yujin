@@ -1,0 +1,215 @@
+<%
+var themeConfig = get_theme_config();
+var bbdConfig = themeConfig.bbd || {};
+%>
+<div class="bbd-container">
+    <div class="timeline-header">
+        <h1 class="main-title"><%= bbdConfig.title || "逼逼叨" %></h1>
+        <p class="subtitle"><%= bbdConfig.subtitle || "人不能总憋着，要吐槽，狠狠吐槽" %></p>
+    </div>
+    
+    <div class="timeline">
+        <% 
+        var bbdContent = get_bbd_data();
+        %>
+        
+        <% 
+                if (bbdContent.posts && bbdContent.posts.length > 0) {
+                    var groupedPosts = {};
+                    bbdContent.posts.forEach(function(post) {
+                        var date = post.date;
+                        if (!groupedPosts[date]) {
+                            groupedPosts[date] = [];
+                        }
+                        groupedPosts[date].push(post);
+                    });
+                    
+                    var dates = Object.keys(groupedPosts).sort().reverse();
+                    
+                    dates.forEach(function(date, index) {
+                %>
+            <div class="timeline-day<%= index % 2 === 0 ? ' left' : ' right' %>">
+                <div class="date-header">
+                    <h2><%= date %></h2>
+                </div>
+                <div class="posts-container">
+                    <% 
+                    // 按时间排序同一天的文章
+                    groupedPosts[date].sort(function(a, b) {
+                        return b.time.localeCompare(a.time);
+                    }).forEach(function(post) {
+                    %>
+                        <div class="post-item" data-post-id="<%= post.id %>">
+                            <div class="post-time">
+                                <%= post.time %>
+                                <% if (post.created_at && post.created_at !== post.date + ' ' + post.time) { %>
+                                    <span class="created-at">(创建于: <%= post.created_at %>)</span>
+                                <% } %>
+                            </div>
+                            <div class="post-content">
+                                <%= post.content %>
+                            </div>
+                            <% if (post.photos && post.photos.length > 0) { %>
+                                <div class="post-images">
+                                    <% post.photos.forEach(function(photo) { %>
+                                        <img src="<%= photo %>" alt="Post image">
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% 
+            });
+        } else { %>
+            <p>暂无内容</p>
+        <% } %>
+    </div>
+</div>
+
+<style>
+.bbd-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.timeline-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.timeline-header .main-title {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.timeline-header .subtitle {
+    font-size: 1em;
+    color: #666;
+    font-style: italic;
+}
+
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+/* 时间轴中央线 */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #333;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-day {
+    position: relative;
+    width: 50%;
+    padding: 20px;
+}
+
+.timeline-day.left {
+    left: 0;
+    text-align: right;
+}
+
+.timeline-day.right {
+    left: 50%;
+}
+
+.date-header {
+    margin-bottom: 20px;
+}
+
+.date-header h2 {
+    display: inline-block;
+    background: #333;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 1em;
+}
+
+.timeline-day.left .date-header {
+    text-align: right;
+}
+
+.timeline-day.right .date-header {
+    text-align: left;
+}
+
+.posts-container {
+    position: relative;
+}
+
+.post-item {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    text-align: left;
+}
+
+.post-item:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.post-time {
+    font-size: 0.9em;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.created-at {
+    font-size: 0.8em;
+    color: #bbb;
+    display: block;
+}
+
+.post-content {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+}
+
+.post-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 10px;
+}
+
+.post-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 30px;
+    }
+    
+    .timeline-day {
+        width: 100%;
+        padding: 10px 10px 10px 70px;
+        left: 0 !important;
+        text-align: left !important;
+    }
+    
+    .timeline-day.left .date-header {
+        text-align: left;
+    }
+}
+</style>

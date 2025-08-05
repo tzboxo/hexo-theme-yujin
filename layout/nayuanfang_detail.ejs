@@ -1,0 +1,182 @@
+<% 
+var nayuanfangContent = get_nayuanfang_data();
+var themeConfig = get_theme_config();
+var nayuanfangConfig = themeConfig.nayuanfang || {};
+var albumId = page.album_id;
+var album = null;
+
+// 查找对应的相册
+if (nayuanfangContent.albums && nayuanfangContent.albums.length > 0) {
+    for (var i = 0; i < nayuanfangContent.albums.length; i++) {
+        if (nayuanfangContent.albums[i].id == albumId) {
+            album = nayuanfangContent.albums[i];
+            break;
+        }
+    }
+}
+%>
+
+<% if (album) { %>
+<div class="album-detail-container">
+    <div class="album-header">
+        <h1 class="album-title"><%= album.title %></h1>
+        <p class="album-date"><%= album.date %></p>
+        <p class="album-description"><%= album.description %></p>
+    </div>
+    
+    <% if (album.photos && album.photos.length > 0) { %>
+        <div class="photo-gallery">
+            <div class="masonry-layout">
+                <% album.photos.forEach(function(photo) { %>
+                    <div class="masonry-item">
+                        <img src="<%= photo %>" alt="Photo" />
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
+    
+    <% if (nayuanfangConfig.album_detail && nayuanfangConfig.album_detail.show_back_link !== false) { %>
+    <div class="back-link">
+        <a href="/nayuanfang/">&laquo; 返回<%= nayuanfangConfig.title || "那远方" %></a>
+    </div>
+    <% } %>
+</div>
+<% } else { %>
+<div class="album-not-found">
+    <h1>相册未找到</h1>
+    <p>抱歉，您访问的相册不存在。</p>
+    <a href="/nayuanfang/">返回<%= nayuanfangConfig.title || "那远方" %></a>
+</div>
+<% } %>
+
+<style>
+.album-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.album-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.album-title {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.album-date {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.album-description {
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.photo-gallery h2 {
+    text-align: center;
+    margin: 40px 0 20px 0;
+    color: #333;
+}
+
+.masonry-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 15px;
+    grid-auto-rows: 10px;
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 15px;
+}
+
+.masonry-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.masonry-item img:hover {
+    transform: scale(1.03);
+}
+
+.back-link {
+    text-align: center;
+    margin-top: 40px;
+    clear: both;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.back-link a {
+    color: #333;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.back-link a:hover {
+    background-color: #333;
+    color: white;
+}
+
+.album-not-found {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.album-not-found h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.album-not-found p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.album-not-found a {
+    color: #333;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.album-not-found a:hover {
+    background-color: #333;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .masonry-layout {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    .album-detail-container {
+        padding: 10px;
+    }
+    
+    .album-title {
+        font-size: 1.5em;
+    }
+}
+</style>

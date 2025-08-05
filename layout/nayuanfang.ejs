@@ -1,0 +1,115 @@
+<% 
+var nayuanfangContent = get_nayuanfang_data();
+var themeConfig = get_theme_config();
+var nayuanfangConfig = themeConfig.nayuanfang || {};
+var pageTitle = nayuanfangConfig.title || "那远方";
+var pageSubtitle = nayuanfangConfig.subtitle || "";
+%>
+
+<div class="gallery-container">
+    <h1 class="gallery-title"><%= pageTitle %></h1>
+    <% if (pageSubtitle) { %>
+    <p class="gallery-subtitle"><%= pageSubtitle %></p>
+    <% } %>
+    
+    <!-- 主页 -->
+    <div class="posts-grid">
+    <% if (nayuanfangContent.albums && nayuanfangContent.albums.length > 0) { 
+        nayuanfangContent.albums.forEach(function(album, index) { %>
+        <div class="post-item">
+            <a href="/nayuanfang/<%= album.id %>/">
+                <div class="post-cover" style="background-color: #eee;"></div>
+                <div class="post-info">
+                    <h2 class="post-title"><%= album.title %></h2>
+                    <div class="title-divider"></div>
+                    <div class="post-date"><%= album.date %></div>
+                </div>
+            </a>
+        </div>
+        <% });
+    } %>
+    </div>
+</div>
+
+<style>
+.gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.gallery-title {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 2em;
+    color: #333;
+}
+
+.gallery-subtitle {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.post-item {
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    transition: transform 0.3s ease;
+}
+
+.post-item:hover {
+    transform: translateY(-5px);
+}
+
+.post-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.post-cover {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.post-info {
+    padding: 15px;
+}
+
+.post-title {
+    font-size: 1.2em;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.title-divider {
+    height: 2px;
+    background: #333;
+    width: 30px;
+    margin-bottom: 10px;
+}
+
+.post-date {
+    font-size: 0.9em;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .gallery-container {
+        padding: 10px;
+    }
+    
+    .post-title {
+        font-size: 1.5em;
+    }
+}
+</style>

@@ -1,0 +1,67 @@
+<%
+  var themeConfig = get_theme_config();
+  var siteConfig = themeConfig.site || {};
+  var navbarConfig = themeConfig.navbar || {};
+  var footerConfig = themeConfig.footer || {};
+%>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title><%= siteConfig.title || config.title %></title>
+    <link rel="stylesheet" href="<%- url_for('css/style.css') %>">
+</head>
+
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="<%- url_for('/') %>" class="navbar-left">
+                <div class="logo"></div>
+                <div class="title-container">
+                    <span class="main-title"><%= (navbarConfig.title && navbarConfig.title.main) || '隅烬' %></span>
+                    <span class="subtitle"><%= (navbarConfig.title && navbarConfig.title.sub) || '在荒寂处黯燃' %></span>
+                </div>
+            </a>
+            
+            <div class="navbar-right">
+                <% if (navbarConfig.menu && navbarConfig.menu.length) { %>
+                    <% navbarConfig.menu.forEach(function(item) { %>
+                        <a href="<%- url_for(item.url) %>" class="nav-item"><%= item.name %></a>
+                    <% }); %>
+                <% } %>
+                <% if (navbarConfig.search && navbarConfig.search.enabled) { %>
+                    <button class="search-btn" aria-label="搜索">
+                        <svg class="search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1 0-176.4-143.1-319.5-319.5-319.5S134.2 239.8 134.2 416.2s143.1 319.5 319.5 319.5c71.3 0 137.5-21.1 193.1-57.3 2 2.6 3.9 5.4 6.4 7.9l214.4 214.5c14.7 14.7 33.6 22.1 52.6 22.1 19 0 37.9-7.4 52.6-22.1 29.3-29.3 29.3-76.9 0.1-106.1zM453.7 752.7c-131.2 0-238.3-107.1-238.3-238.3s107.1-238.3 238.3-238.3 238.3 107.1 238.3 238.3-107.1 238.3-238.3 238.3z"></path>
+                        </svg>
+                    </button>
+                <% } %>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="main-content">
+        <div class="container">
+            <%- body %>
+        </div>
+    </div>
+    
+    <!-- 底部 -->
+    <footer class="footer">
+        <div class="container">
+            <p class="quote"><%= footerConfig.quote || '⇖且停且忘且随风 · 且行且看且从容⇗' %></p>
+            <hr class="divider">
+            <p class="author"><%= footerConfig.author || config.author %></p>
+            <% if (footerConfig.copyright) { %>
+                <p class="copyright"><%= footerConfig.copyright %></p>
+            <% } %>
+            <% if (footerConfig.powered_by) { %>
+                <p class="powered-by">由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动</p>
+            <% } %>
+        </div>
+    </footer>
+</body>
+
+</html>

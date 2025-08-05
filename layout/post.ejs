@@ -1,0 +1,201 @@
+<%
+var themeConfig = get_theme_config();
+var postConfig = themeConfig.post || {};
+
+// 处理文章置顶显示
+var isTop = page.top || false;
+
+// 处理文章评论设置，默认开启
+var enableComment = (page.comments !== false); // 默认开启，只有明确设置为false才关闭
+%>
+<article class="post-container">
+  <% if (page.cover) { %>
+  <div class="post-cover">
+    <img src="<%- url_for(page.cover) %>" alt="<%- page.title || '文章封面' %>">
+  </div>
+  <% } %>
+  
+  <header class="post-header">
+    <h1 class="post-title"><%- page.title || '无标题' %></h1>
+    <div class="post-meta">
+      <% if (isTop) { %>
+        <span class="post-top">置顶</span>
+      <% } %>
+      <time class="post-date" datetime="<%- page.date.toISOString() %>">
+        <%- page.date.format(config.date_format) %>
+      </time>
+      <% if (page.categories && page.categories.length) { %>
+        <span class="post-category">
+          <% page.categories.each(function(category) { %>
+            <a href="<%- url_for(category.path) %>"><%- category.name %></a>
+          <% }); %>
+        </span>
+      <% } %>
+      <% if (page.tags && page.tags.length) { %>
+        <span class="post-tags">
+          <% page.tags.each(function(tag) { %>
+            <a href="<%- url_for(tag.path) %>"><%- tag.name %></a>
+          <% }); %>
+        </span>
+      <% } %>
+    </div>
+  </header>
+
+    <div class="post-content">
+      <%- page.content %>
+    </div>
+
+    <% if (enableComment) { %>
+    <div class="post-comments">
+      <!-- 评论区域 -->
+      <p>评论区域</p>
+    </div>
+    <% } %>
+  <% if (postConfig.copyright && postConfig.copyright.enabled) { %>
+  <footer class="post-footer">
+    <div class="post-copyright">
+      <p>作者: <%- postConfig.copyright.author %></p>
+      <p>许可协议: <a href="<%- postConfig.copyright.license_url %>" target="_blank"><%- postConfig.copyright.license %></a></p>
+    </div>
+  </footer>
+  <% } %>
+</article>
+
+<style>
+.post-container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.post-cover {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.post-cover img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.post-header {
+  margin-bottom: 30px;
+  text-align: left;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.post-title {
+  font-size: 2em;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.post-meta {
+  font-size: 0.9em;
+  color: #999;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.post-meta .post-top {
+  background-color: #ff6b6b;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  margin-right: 10px;
+}
+
+.post-meta .post-date {
+  margin-right: 20px;
+}
+
+.post-meta .post-category a {
+  color: #1abc9c;
+  margin-right: 5px;
+  text-decoration: none;
+}
+
+.post-meta .post-category a:hover {
+  text-decoration: underline;
+}
+
+.post-meta .post-tags a {
+  color: #3498db;
+  margin-right: 5px;
+  text-decoration: none;
+}
+
+.post-meta .post-tags a:hover {
+  text-decoration: underline;
+}
+
+.post-protected {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.password-hint {
+  margin-bottom: 15px;
+  color: #666;
+}
+
+.password-form input[type="password"] {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+  width: 200px;
+}
+
+.password-form button {
+  padding: 8px 15px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.password-form button:hover {
+  background-color: #555;
+}
+
+.password-error {
+  color: #e74c3c;
+  margin-top: 10px;
+}
+
+.post-content {
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.post-comments {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.post-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.post-copyright {
+  background: #f8f8f8;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+</style>

@@ -1,0 +1,96 @@
+<%
+var themeConfig = get_theme_config();
+var archiveConfig = themeConfig.archive || {enable: true};
+%>
+<% if (archiveConfig.enable) { %>
+<div class="archive-container">
+  <h1 class="archive-title">归档</h1>
+  
+  <% if (page.posts && page.posts.length) { %>
+    <% var posts = page.posts.sort('-date'); %>
+    <% var years = {}; %>
+    
+    <% posts.each(function(post) { %>
+      <% var year = post.date.format('YYYY'); %>
+      <% if (!years[year]) years[year] = []; %>
+      <% years[year].push(post); %>
+    <% }); %>
+    
+    <% Object.keys(years).sort().reverse().forEach(function(year) { %>
+      <div class="archive-year">
+        <h2 class="archive-year-title"><%= year %></h2>
+        <ul class="archive-posts">
+          <% years[year].forEach(function(post) { %>
+            <li class="archive-post">
+              <time class="archive-post-date"><%= post.date.format('MM-DD') %></time>
+              <a class="archive-post-link" href="<%- url_for(post.path) %>"><%- post.title || '无标题' %></a>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+    <% }); %>
+  <% } else { %>
+    <p class="no-posts">暂无文章</p>
+  <% } %>
+</div>
+
+<style>
+.archive-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.archive-title {
+  font-size: 2em;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #333;
+}
+
+.archive-year {
+  margin-bottom: 30px;
+}
+
+.archive-year-title {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.archive-posts {
+  list-style: none;
+}
+
+.archive-post {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.archive-post-date {
+  color: #999;
+  font-size: 0.9em;
+  width: 60px;
+  margin-right: 15px;
+}
+
+.archive-post-link {
+  color: #333;
+  text-decoration: none;
+}
+
+.archive-post-link:hover {
+  color: #666;
+  text-decoration: underline;
+}
+
+.no-posts {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+</style>
+<% } %>

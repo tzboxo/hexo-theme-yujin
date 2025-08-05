@@ -1,0 +1,35 @@
+<article class="page-container">
+  <header class="page-header">
+    <% if (page.title) { %>
+      <h1 class="page-title"><%- page.title %></h1>
+    <% } %>
+  </header>
+
+  <div class="page-content">
+    <%- page.content %>
+  </div>
+</article>
+
+<style>
+.page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.page-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 2em;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.page-content {
+  line-height: 1.8;
+  color: #333;
+}
+</style>

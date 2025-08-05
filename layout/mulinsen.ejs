@@ -1,0 +1,159 @@
+<%
+var themeConfig = get_theme_config();
+var mulinsenConfig = themeConfig.mulinsen || {};
+%>
+<div class="mulinsen-container">
+    <div class="header">
+        <h1 class="main-title"><%= mulinsenConfig.title || "木林森" %></h1>
+        <p class="subtitle"><%= mulinsenConfig.subtitle || "木林森的碎碎念" %></p>
+    </div>
+    
+    <div class="content-sections">
+        <!-- 分类部分 -->
+        <div class="section categories-section">
+            <h2 class="section-title">分类</h2>
+            <% if (site.categories && site.categories.length > 0) { %>
+                <div class="categories-list">
+                    <% site.categories.sort('name').each(function(category) { %>
+                        <div class="category-item">
+                            <a href="<%- url_for(category.path) %>">
+                                <span class="category-name"><%= category.name %></span>
+                                <span class="category-count"><%= category.posts.length %> 篇文章</span>
+                            </a>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <p class="no-content">暂无分类</p>
+            <% } %>
+        </div>
+        
+        <!-- 标签部分 -->
+        <div class="section tags-section">
+            <h2 class="section-title">标签</h2>
+            <% if (site.tags && site.tags.length > 0) { %>
+                <div class="tags-list">
+                    <% site.tags.sort('name').each(function(tag) { %>
+                        <div class="tag-item">
+                            <a href="<%- url_for(tag.path) %>">
+                                <span class="tag-name"><%= tag.name %></span>
+                                <span class="tag-count"><%= tag.posts.length %> 篇文章</span>
+                            </a>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <p class="no-content">暂无标签</p>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<style>
+.mulinsen-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-top: 36px; /* 增加顶部内边距，确保内容不被导航栏遮挡 */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+/* 为页面标题使用特定的类名，避免与导航栏样式冲突 */
+.mulinsen-container .main-title {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* 为页面副标题使用特定的类名，避免与导航栏样式冲突 */
+.mulinsen-container .subtitle {
+    font-size: 1em;
+    color: #666;
+    font-style: italic;
+}
+
+.content-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.section {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.section-title {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.categories-list, .tags-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.category-item, .tag-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.category-item:hover, .tag-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.category-item a, .tag-item a {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #333;
+}
+
+.category-name, .tag-name {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.category-count, .tag-count {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.no-content {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    font-size: 1.2em;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .mulinsen-container {
+        padding: 10px;
+        padding-top: 36px; /* 在小屏幕上也保持适当的间距 */
+    }
+    
+    /* 为页面标题使用特定的类名，避免与导航栏样式冲突 */
+    .mulinsen-container .main-title {
+        font-size: 2em;
+    }
+    
+    .categories-list, .tags-list {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+</style>
