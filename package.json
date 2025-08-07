@@ -6,8 +6,7 @@
   "keywords": [
     "hexo",
     "theme",
-    "yujin",
-    "blog"
+    "yujin"
   ],
   "author": {
     "name": "TZ-XIAOO",
@@ -20,12 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/hexo-theme-yujin.git"
+    "url": ""
   },
   "bugs": {
-    "url": "https://github.com/your-username/hexo-theme-yujin/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/your-username/hexo-theme-yujin#readme",
+  "homepage": "",
   "dependencies": {
   }
 }

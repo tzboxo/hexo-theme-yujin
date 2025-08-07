@@ -6,13 +6,13 @@
 # 站点信息设置
 # -------------------------------------------
 site:
-  title: 隅烬主题                  # 站点标题
-  subtitle: 在荒寂处黯燃             # 站点副标题
-  description: 简洁美观的Hexo主题     # 站点描述
-  keywords: Hexo,主题,隅烬           # 站点关键词
-  author: TZ-XIAOO                  # 作者
-  language: zh-CN                   # 语言
-  timezone: Asia/Shanghai           # 时区
+  title: TZ-XIAOO的隅烬                     # 站点标题
+  subtitle: 在荒寂处黯燃            # 站点副标题
+  description: 简洁美观的Hexo主题    # 站点描述
+  keywords: Hexo,主题,隅烬          # 站点关键词
+  author: TZ-XIAOO                 # 作者
+  language: zh-CN                  # 语言
+  timezone: Asia/Shanghai          # 时区
 
 # -------------------------------------------
 # 导航栏设置
@@ -21,13 +21,10 @@ navbar:
   # Logo设置
   logo:
     enabled: true                  # 是否显示Logo
-    width: 40                      # Logo宽度
-    height: 40                     # Logo高度
-    
-  # 站点标题设置
-  title:
-    main: 隅烬                     # 主标题
-    sub: 在荒寂处黯燃               # 副标题
+    width: 80                      # Logo宽度
+    height: 80                     # Logo高度
+    img: https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-7.png
+
     
   # 导航链接
   menu:

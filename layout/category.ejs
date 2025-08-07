@@ -9,7 +9,15 @@ var themeConfig = get_theme_config();
       <% page.posts.sort('-date').each(function(post) { %>
         <div class="post-item">
           <a href="<%- url_for(post.path) %>">
-            <div class="post-cover" style="background-color: #eee;"></div>
+            <% if (post.cover) { %>
+              <div class="post-cover" style="background-image: url('<%- url_for(post.cover) %>');"></div>
+            <% } else { %>
+              <% if (themeConfig.default_cover) { %>
+                <div class="post-cover" style="background-image: url('<%- url_for(themeConfig.default_cover) %>');"></div>
+              <% } else { %>
+                <div class="post-cover" style="background-image: url('/images/default-cover.jpg');"></div>
+              <% } %>
+            <% } %>
             <div class="post-info">
               <h2 class="post-title"><%- post.title || '无标题' %></h2>
               <div class="title-divider"></div>
@@ -44,20 +52,23 @@ var themeConfig = get_theme_config();
 }
 
 .category-title {
-  font-size: 2em;
-  margin-bottom: 30px;
+  font-size: 2.5em;
+  margin-bottom: 40px;
   text-align: center;
   color: #333;
 }
 
 .posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 30px;
   margin-bottom: 30px;
 }
 
 .post-item {
+  flex: 0 1 calc(33.333% - 20px);
+  min-width: 250px;
   border-radius: 5px;
   overflow: hidden;
   transition: transform 0.3s ease;
@@ -87,11 +98,11 @@ var themeConfig = get_theme_config();
 }
 
 .post-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   color: #333;
   margin-bottom: 15px;
-  height: 54px;
+  max-height: 54px;
   line-height: 27px;
   overflow: hidden;
   display: -webkit-box;
@@ -114,7 +125,7 @@ var themeConfig = get_theme_config();
 
 .pagination {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 20px 0;
 }
@@ -138,10 +149,34 @@ var themeConfig = get_theme_config();
   border-color: #333;
 }
 
+@media (max-width: 1200px) {
+  .posts-grid {
+    gap: 20px;
+  }
+  
+  .post-item {
+    flex: 0 1 calc(50% - 10px);
+  }
+}
+
+@media (max-width: 768px) {
+  .posts-grid {
+    gap: 15px;
+  }
+  
+  .post-item {
+    flex: 0 1 100%;
+  }
+  
+  .post-title {
+    font-size: 16px;
+  }
+}
+
 .no-posts {
   text-align: center;
   color: #999;
-  font-style: italic;
-  font-size: 1.2em;
+  font-size: 16px;
+  padding: 40px 0;
 }
 </style>

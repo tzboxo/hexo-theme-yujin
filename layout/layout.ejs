@@ -3,13 +3,23 @@
   var siteConfig = themeConfig.site || {};
   var navbarConfig = themeConfig.navbar || {};
   var footerConfig = themeConfig.footer || {};
+  
+  // 获取logo配置
+  var logoConfig = navbarConfig.logo || {};
+  var logoWidth = logoConfig.width || 40;
+  var logoHeight = logoConfig.height || 40;
+  var logoImg = logoConfig.img || '';
+  
+  // 获取站点标题和副标题
+  var siteTitle = siteConfig.title || config.title || '隅烬';
+  var siteSubtitle = siteConfig.subtitle || config.subtitle || '在荒寂处黯燃';
 %>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title><%= siteConfig.title || config.title %></title>
+    <title><%= siteTitle %></title>
     <link rel="stylesheet" href="<%- url_for('css/style.css') %>">
 </head>
 
@@ -18,10 +28,10 @@
     <nav class="navbar">
         <div class="container">
             <a href="<%- url_for('/') %>" class="navbar-left">
-                <div class="logo"></div>
+                <div class="logo" style="width: <%- logoWidth %>px; height: <%- logoHeight %>px;<% if (logoImg) { %> background-image: url(<%= logoImg %>); background-size: cover; background-position: center;<% } %>"></div>
                 <div class="title-container">
-                    <span class="main-title"><%= (navbarConfig.title && navbarConfig.title.main) || '隅烬' %></span>
-                    <span class="subtitle"><%= (navbarConfig.title && navbarConfig.title.sub) || '在荒寂处黯燃' %></span>
+                    <span class="main-title"><%= siteTitle %></span>
+                    <span class="subtitle"><%= siteSubtitle %></span>
                 </div>
             </a>
             
@@ -62,6 +72,9 @@
             <% } %>
         </div>
     </footer>
+    
+    <!-- 搜索功能 JavaScript -->
+    <script src="<%- url_for('js/search.js') %>"></script>
 </body>
 
 </html>
